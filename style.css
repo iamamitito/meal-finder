@@ -109,7 +109,6 @@ input[type="text"] {
   letter-spacing: 1px;
   line-height: 1.5;
 }
-
 .single-meal ul {
   padding-left: 0;
   list-style-type: none;
@@ -123,7 +122,27 @@ input[type="text"] {
   padding: 5px;
   display: inline-block;
 }
-
+/* Spinner */
+.spinner {
+  margin-top: 50px;
+  border: 15px solid rgb(251, 250, 246);
+  border-radius: 50%;
+  border-top: 15px solid rgb(60, 60, 60);
+  width: 100px;
+  height: 100px;
+  animation: spin 1.5s linear infinite;
+}
+.hidden {
+  display: none;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 @media (max-width: 900px) {
   .meals {
     grid-template-columns: repeat(2, 1fr);
@@ -132,14 +151,12 @@ input[type="text"] {
     font-size: 12px;
   }
 }
-
 @media (max-width: 700px) {
   .meal {
     height: 120px;
     width: 120px;
   }
 }
-
 @media (max-width: 500px) {
   input[type="text"] {
     width: 100%;

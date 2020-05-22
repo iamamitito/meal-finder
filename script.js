@@ -4,12 +4,16 @@ const random = document.getElementById('random');
 const meals = document.getElementById('meals');
 const resultHeading = document.getElementById('result-heading');
 const singleMeal = document.getElementById('single-meal');
+const spinner = document.getElementById('spinner');
 
 
 
 // search meal and fetch from API
 function searchMeal(e) {
     e.preventDefault();
+
+    // Shows a spinner before displaying meals
+    loadMeals();
 
     // Clear single meal
     if (!meals.innerHTML == '' || !search.value == '') {
@@ -39,11 +43,24 @@ function searchMeal(e) {
                         .join('');
                 }
             });
-
         // Clear Search Input
         search.value = '';
+
     } else {
-        alert('please enter a valid search input');
+        if (!resultHeading.innerHTML == '') {
+            const resultHeadingSave = resultHeading.innerHTML;
+            resultHeading.innerHTML =
+                "<p>Please don't leave the search box empty</p>";
+            setTimeout(() => {
+                resultHeading.innerHTML = resultHeadingSave;
+            }, 2000);
+        } else {
+            resultHeading.innerHTML =
+                "<p>Please don't leave the search box empty</p>";
+            setTimeout(() => {
+                resultHeading.innerHTML = '';
+            }, 2000);
+        }
     }
 
 }
@@ -110,6 +127,22 @@ function displayMealToUI(meal) {
 function scrollUp() {
     window.scrollTo(0, 180);
 }
+
+// Load meals
+function loadMeals() {
+    spinner.classList.remove('hidden');
+    resultHeading.classList.add('hidden');
+    setTimeout(() => {
+        meals.classList.remove('hidden');
+        spinner.classList.add('hidden');
+        resultHeading.classList.remove('hidden');
+    }, 700)
+    meals.classList.add('hidden');
+}
+
+
+
+
 
 // Event Listener
 submit.addEventListener('submit', searchMeal);
