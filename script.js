@@ -115,7 +115,7 @@ function displayMealToUI(meal) {
         ${ingredients.map(ing => `<li>${ing}</li>`).join('')}
         </ul>
         <h4>Intructions</h4>
-        ${meal.strInstructions.split(';').map(item => `<p>${item}</p>`).join('')}
+        ${meal.strInstructions.split(';').map(item => `<p>${item}</p>`).join('').replace(/\s+/g, ' ')}
         </div>
     </div>
     `
