@@ -8,12 +8,12 @@ const spinner = document.getElementById('spinner');
 
 
 
-// search meal and fetch from API
+// Search meal and fetch from API
 function searchMeal(e) {
     e.preventDefault();
 
     // Shows a spinner before displaying meals
-    loadMeals();
+    showSpinner();
 
     // Clear single meal
     if (!meals.innerHTML == '' || !search.value == '') {
@@ -66,7 +66,7 @@ function searchMeal(e) {
 }
 
 
-//Fetching meal by ID 
+// Fetching meal by ID 
 function getMealById(mealID) {
     fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
         .then(res => res.json())
@@ -101,8 +101,6 @@ function displayMealToUI(meal) {
             break;
         }
     }
-    // Clear meals before fetching the single meal
-    // meals.innerText = '';
 
     singleMeal.innerHTML = `
     <div class="single-meal">
@@ -123,13 +121,13 @@ function displayMealToUI(meal) {
     `
 }
 
-// See meal details right way after clicking on meal
+// See meal details right after clicking on meal
 function scrollUp() {
     window.scrollTo(0, 180);
 }
 
-// Load meals
-function loadMeals() {
+
+function showSpinner() {
     spinner.classList.remove('hidden');
     resultHeading.classList.add('hidden');
     setTimeout(() => {
@@ -144,7 +142,7 @@ function loadMeals() {
 
 
 
-// Event Listener
+// Event Listeners
 submit.addEventListener('submit', searchMeal);
 random.addEventListener('click', getRandomMeal);
 
