@@ -9,7 +9,7 @@ const spinner = document.getElementById('spinner');
 
 
 // Search meal and fetch from API
-function searchMeal(e) {
+async function searchMeal(e) {
     e.preventDefault();
 
     // Shows a spinner before displaying meals
@@ -24,15 +24,14 @@ function searchMeal(e) {
 
     // Check for empty
     if (term.trim()) {
-        fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`)
-            .then(res => res.json())
-            .then(data => {
-                resultHeading.innerHTML = `<h3>Search results for '${term}':</h3>`;
+        const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`);
+        const data = await res.json();
+        resultHeading.innerHTML = `<h3>Search results for '${term}':</h3>`;
 
-                if (data.meals === null) {
-                    resultHeading.innerHTML = `<p>Search not found</p>`;
-                } else {
-                    meals.innerHTML = data.meals.map(meal => `
+        if (data.meals === null) {
+            resultHeading.innerHTML = `<p>Search not found</p>`;
+        } else {
+            meals.innerHTML = data.meals.map(meal => `
                     <div class="meal">
                         <img src="${meal.strMealThumb}" alt="${meal.strMeal}">
                         <div class="meal-info" data-mealID="${meal.idMeal}">
@@ -40,9 +39,9 @@ function searchMeal(e) {
                         </div>
                     </div>
                     `)
-                        .join('');
-                }
-            });
+                .join('');
+        }
+        ;
         // Clear Search Input
         search.value = '';
 
@@ -67,14 +66,12 @@ function searchMeal(e) {
 
 
 // Fetching meal by ID 
-function getMealById(mealID) {
-    fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`)
-        .then(res => res.json())
-        .then(data => {
-            const meal = data.meals[0];
-            displayMealToUI(meal);
-            scrollUp();
-        })
+async function getMealById(mealID) {
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`);
+    const data = await res.json();
+    const meal = data.meals[0];
+    displayMealToUI(meal);
+    scrollUp();
 }
 
 // Fetch a random meal
