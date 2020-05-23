@@ -7,13 +7,9 @@ const singleMeal = document.getElementById('single-meal');
 const spinner = document.getElementById('spinner');
 
 
-
 // Search meal and fetch from API
 async function searchMeal(e) {
     e.preventDefault();
-
-    // Shows a spinner before displaying meals
-    showSpinner();
 
     // Clear single meal
     if (!meals.innerHTML == '' || !search.value == '') {
@@ -24,6 +20,9 @@ async function searchMeal(e) {
 
     // Check for empty
     if (term.trim()) {
+        // Shows a spinner before displaying meals
+        showSpinner();
+
         const res = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${term}`);
         const data = await res.json();
         resultHeading.innerHTML = `<h3>Search results for '${term}':</h3>`;
@@ -46,22 +45,8 @@ async function searchMeal(e) {
         search.value = '';
 
     } else {
-        if (!resultHeading.innerHTML == '') {
-            const resultHeadingSave = resultHeading.innerHTML;
-            resultHeading.innerHTML =
-                "<p>Please don't leave the search box empty</p>";
-            setTimeout(() => {
-                resultHeading.innerHTML = resultHeadingSave;
-            }, 2000);
-        } else {
-            resultHeading.innerHTML =
-                "<p>Please don't leave the search box empty</p>";
-            setTimeout(() => {
-                resultHeading.innerHTML = '';
-            }, 2000);
-        }
+        return false;
     }
-
 }
 
 
@@ -75,16 +60,14 @@ async function getMealById(mealID) {
 }
 
 // Fetch a random meal
-function getRandomMeal() {
+async function getRandomMeal() {
     //Clear meals heading
     meals.innerHTML = '';
     resultHeading.innerHTML = '';
-    fetch(`https://www.themealdb.com/api/json/v1/1/random.php`)
-        .then(res => res.json())
-        .then(data => {
-            const meal = data.meals[0];
-            displayMealToUI(meal);
-        })
+    const res = await fetch(`https://www.themealdb.com/api/json/v1/1/random.php`);
+    const data = await res.json();
+    const meal = data.meals[0];
+    displayMealToUI(meal);
 }
 
 // Add meal to DOM
@@ -131,10 +114,9 @@ function showSpinner() {
         meals.classList.remove('hidden');
         spinner.classList.add('hidden');
         resultHeading.classList.remove('hidden');
-    }, 700)
+    }, 800)
     meals.classList.add('hidden');
 }
-
 
 
 
